@@ -12,105 +12,43 @@
     </style>
 </head>
 <body class="bg-black text-white">
-
 <div class="max-w-3xl mx-auto p-6 space-y-8">
-
-    <!-- HERO -->
     <div class="text-center">
         <h1 class="text-4xl font-bold">SMA‑03 · Punto de No Retorno</h1>
         <p class="text-gray-400">Predice el riesgo de irreversibilidad en decisiones estratégicas (80% precisión validada)</p>
     </div>
-
-    <!-- FORMULARIO PRINCIPAL -->
     <div class="bg-gray-900 p-6 rounded-2xl space-y-6">
-        
-        <!-- NOMBRE -->
         <div>
             <label class="block mb-1">Tu nombre (para el informe)</label>
-            <input type="text" id="nombre" placeholder="Ej. Proyecto Alpha" 
-                   class="w-full p-3 rounded-lg bg-gray-800 border border-gray-700 text-white">
+            <input type="text" id="nombre" placeholder="Ej. Proyecto Alpha" class="w-full p-3 rounded-lg bg-gray-800 border border-gray-700 text-white">
         </div>
-
-        <!-- PRESIONES ESTRUCTURALES (0-1) -->
+        <!-- Presiones estructurales -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-                <div class="slider-label"><span>💰 Económica (P_E)</span> <span id="pe_val" class="value-badge">0.5</span></div>
-                <input type="range" id="pe" min="0" max="1" step="0.1" value="0.5" class="w-full">
-            </div>
-            <div>
-                <div class="slider-label"><span>📢 Reputacional (P_R)</span> <span id="pr_val" class="value-badge">0.5</span></div>
-                <input type="range" id="pr" min="0" max="1" step="0.1" value="0.5" class="w-full">
-            </div>
-            <div>
-                <div class="slider-label"><span>🤝 Relacional (P_L)</span> <span id="pl_val" class="value-badge">0.5</span></div>
-                <input type="range" id="pl" min="0" max="1" step="0.1" value="0.5" class="w-full">
-            </div>
-            <div>
-                <div class="slider-label"><span>🎯 Estratégica (P_S)</span> <span id="ps_val" class="value-badge">0.5</span></div>
-                <input type="range" id="ps" min="0" max="1" step="0.1" value="0.5" class="w-full">
-            </div>
-            <div>
-                <div class="slider-label"><span>❤️ Emocional (P_M)</span> <span id="pm_val" class="value-badge">0.5</span></div>
-                <input type="range" id="pm" min="0" max="1" step="0.1" value="0.5" class="w-full">
-            </div>
+            <div><div class="slider-label"><span>💰 Económica (P_E)</span> <span id="pe_val" class="value-badge">0.5</span></div><input type="range" id="pe" min="0" max="1" step="0.1" value="0.5" class="w-full"></div>
+            <div><div class="slider-label"><span>📢 Reputacional (P_R)</span> <span id="pr_val" class="value-badge">0.5</span></div><input type="range" id="pr" min="0" max="1" step="0.1" value="0.5" class="w-full"></div>
+            <div><div class="slider-label"><span>🤝 Relacional (P_L)</span> <span id="pl_val" class="value-badge">0.5</span></div><input type="range" id="pl" min="0" max="1" step="0.1" value="0.5" class="w-full"></div>
+            <div><div class="slider-label"><span>🎯 Estratégica (P_S)</span> <span id="ps_val" class="value-badge">0.5</span></div><input type="range" id="ps" min="0" max="1" step="0.1" value="0.5" class="w-full"></div>
+            <div><div class="slider-label"><span>❤️ Emocional (P_M)</span> <span id="pm_val" class="value-badge">0.5</span></div><input type="range" id="pm" min="0" max="1" step="0.1" value="0.5" class="w-full"></div>
         </div>
-
-        <!-- CREENCIAS (1-5) -->
+        <!-- Creencias -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
-            <div>
-                <div class="slider-label"><span>🔍 Causal (C)</span> <span id="c_val" class="value-badge">3</span></div>
-                <input type="range" id="c" min="1" max="5" step="1" value="3" class="w-full">
-            </div>
-            <div>
-                <div class="slider-label"><span>🆔 Identidad (I)</span> <span id="i_val" class="value-badge">3</span></div>
-                <input type="range" id="i" min="1" max="5" step="1" value="3" class="w-full">
-            </div>
-            <div>
-                <div class="slider-label"><span>✨ Significado (S)</span> <span id="s_val" class="value-badge">3</span></div>
-                <input type="range" id="s" min="1" max="5" step="1" value="3" class="w-full">
-            </div>
+            <div><div class="slider-label"><span>🔍 Causal (C)</span> <span id="c_val" class="value-badge">3</span></div><input type="range" id="c" min="1" max="5" step="1" value="3" class="w-full"></div>
+            <div><div class="slider-label"><span>🆔 Identidad (I)</span> <span id="i_val" class="value-badge">3</span></div><input type="range" id="i" min="1" max="5" step="1" value="3" class="w-full"></div>
+            <div><div class="slider-label"><span>✨ Significado (S)</span> <span id="s_val" class="value-badge">3</span></div><input type="range" id="s" min="1" max="5" step="1" value="3" class="w-full"></div>
         </div>
-
-        <!-- FACTORES BIOLÓGICOS (0-1) -->
+        <!-- Factores biológicos -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
-            <div>
-                <div class="slider-label"><span>⚠️ Tolerancia al riesgo (B_R)</span> <span id="br_val" class="value-badge">1.0</span></div>
-                <input type="range" id="br" min="0" max="1" step="0.1" value="1.0" class="w-full">
-            </div>
-            <div>
-                <div class="slider-label"><span>😥 Sensibilidad emocional (B_E)</span> <span id="be_val" class="value-badge">1.0</span></div>
-                <input type="range" id="be" min="0" max="1" step="0.1" value="1.0" class="w-full">
-            </div>
-            <div>
-                <div class="slider-label"><span>🧠 Flexibilidad cognitiva (B_C)</span> <span id="bc_val" class="value-badge">1.0</span></div>
-                <input type="range" id="bc" min="0" max="1" step="0.1" value="1.0" class="w-full">
-            </div>
+            <div><div class="slider-label"><span>⚠️ Tolerancia al riesgo (B_R)</span> <span id="br_val" class="value-badge">1.0</span></div><input type="range" id="br" min="0" max="1" step="0.1" value="1.0" class="w-full"></div>
+            <div><div class="slider-label"><span>😥 Sensibilidad emocional (B_E)</span> <span id="be_val" class="value-badge">1.0</span></div><input type="range" id="be" min="0" max="1" step="0.1" value="1.0" class="w-full"></div>
+            <div><div class="slider-label"><span>🧠 Flexibilidad cognitiva (B_C)</span> <span id="bc_val" class="value-badge">1.0</span></div><input type="range" id="bc" min="0" max="1" step="0.1" value="1.0" class="w-full"></div>
         </div>
-
-        <!-- BOTÓN CALCULAR -->
-        <button onclick="calcular()" class="w-full bg-green-600 hover:bg-green-700 py-4 rounded-xl font-bold text-lg transition">
-            🔍 Analizar decisión
-        </button>
+        <button onclick="calcular()" class="w-full bg-green-600 hover:bg-green-700 py-4 rounded-xl font-bold text-lg transition">🔍 Analizar decisión</button>
     </div>
-
-    <!-- RESULTADO (oculto hasta calcular) -->
     <div id="resultado" class="hidden bg-gray-800 p-6 rounded-2xl space-y-3"></div>
-
-    <!-- BOTÓN DE PAGO -->
-    <a id="stripeLink" href="https://buy.stripe.com/TU_LINK" target="_blank"
-       class="block text-center bg-yellow-600 hover:bg-yellow-700 py-4 rounded-xl font-bold text-lg transition">
-        💳 Desbloquear informe completo ($10)
-    </a>
-
-    <!-- BOTÓN PDF (oculto hasta pago) -->
-    <button id="btnPDF" onclick="generarPDF()" 
-            class="w-full bg-blue-600 hover:bg-blue-700 mt-3 py-4 rounded-xl font-bold text-lg hidden transition">
-        📄 Descargar Informe PDF
-    </button>
+    <a id="stripeLink" href="https://buy.stripe.com/TU_LINK" target="_blank" class="block text-center bg-yellow-600 hover:bg-yellow-700 py-4 rounded-xl font-bold text-lg transition">💳 Desbloquear informe completo ($10)</a>
+    <button id="btnPDF" onclick="generarPDF()" class="w-full bg-blue-600 hover:bg-blue-700 mt-3 py-4 rounded-xl font-bold text-lg hidden transition">📄 Descargar Informe PDF</button>
 </div>
-
 <script>
-    // Mostrar valores actualizados de los sliders
     function actualizarEtiquetas() {
         document.getElementById('pe_val').innerText = document.getElementById('pe').value;
         document.getElementById('pr_val').innerText = document.getElementById('pr').value;
@@ -124,125 +62,58 @@
         document.getElementById('be_val').innerText = document.getElementById('be').value;
         document.getElementById('bc_val').innerText = document.getElementById('bc').value;
     }
-
-    document.querySelectorAll('input[type=range]').forEach(slider => {
-        slider.addEventListener('input', actualizarEtiquetas);
-    });
+    document.querySelectorAll('input[type=range]').forEach(slider => slider.addEventListener('input', actualizarEtiquetas));
     actualizarEtiquetas();
-
-    // Función sigmoide
     function sigmoid(x) { return 1 / (1 + Math.exp(-x)); }
-
-    // Cálculo principal
     function calcular() {
-        // Leer valores
         let pe = parseFloat(document.getElementById('pe').value);
         let pr = parseFloat(document.getElementById('pr').value);
         let pl = parseFloat(document.getElementById('pl').value);
         let ps = parseFloat(document.getElementById('ps').value);
         let pm = parseFloat(document.getElementById('pm').value);
         let P = (pe + pr + pl + ps + pm) / 5;
-
-        let A = P; // proxy de compromiso/acción
-
+        let A = P;
         let C = parseFloat(document.getElementById('c').value) / 5;
         let I = parseFloat(document.getElementById('i').value) / 5;
         let S = parseFloat(document.getElementById('s').value) / 5;
-
         let BR = parseFloat(document.getElementById('br').value);
         let BE = parseFloat(document.getElementById('be').value);
         let BC = parseFloat(document.getElementById('bc').value);
         let B_agg = (BR + BE + BC) / 3;
-
-        // Coeficientes del modelo (basados en odds ratios)
-        const B0 = -2.5;
-        const B_P = 2.14;
-        const B_A = 0.83;
-        const B_C = 1.67;
-        const B_I = 1.92;
-        const B_S = 1.81;
-        const B_BR = 0.83;
-        const B_BE = 1.03;
-        const B_BC = -1.11;
-        const B_PxA = 0.74;
-        const B_AxB = 0.53;
-
-        let logit = B0
-                  + B_P * P
-                  + B_A * A
-                  + B_C * C
-                  + B_I * I
-                  + B_S * S
-                  + B_BR * BR
-                  + B_BE * BE
-                  + B_BC * BC
-                  + B_PxA * P * A
-                  + B_AxB * A * B_agg;
-
+        const B0 = -2.5, B_P = 2.14, B_A = 0.83, B_C = 1.67, B_I = 1.92, B_S = 1.81,
+              B_BR = 0.83, B_BE = 1.03, B_BC = -1.11, B_PxA = 0.74, B_AxB = 0.53;
+        let logit = B0 + B_P*P + B_A*A + B_C*C + B_I*I + B_S*S + B_BR*BR + B_BE*BE + B_BC*BC + B_PxA*P*A + B_AxB*A*B_agg;
         let PNR = sigmoid(logit);
-
-        // Clasificación
-        let riesgo, recomendacion;
-        if (PNR < 0.4) {
-            riesgo = "Bajo";
-            recomendacion = "Puedes avanzar con flexibilidad. Mantén opciones abiertas.";
-        } else if (PNR < 0.7) {
-            riesgo = "Moderado";
-            recomendacion = "Monitorea de cerca. Evita compromisos irrevocables.";
-        } else {
-            riesgo = "Alto";
-            recomendacion = "Alerta de irreversibilidad. Busca alternativas para mantener capacidad de reversión.";
-        }
-
-        // Factores dominantes
+        let riesgo = PNR < 0.4 ? 'Bajo' : (PNR < 0.7 ? 'Moderado' : 'Alto');
         let factores = [];
-        if (P > 0.7) factores.push("alta presión estructural");
-        if (I > 0.7) factores.push("fuerte identidad");
-        if (S > 0.7) factores.push("gran significado simbólico");
-        if (BC < 0.3) factores.push("baja flexibilidad cognitiva");
-        if (BR > 0.7) factores.push("alta tolerancia al riesgo");
-
-        // Mostrar resultado
-        document.getElementById("resultado").classList.remove("hidden");
-        document.getElementById("resultado").innerHTML = `
-            <h3 class="text-2xl font-bold mb-2">📋 Resultado del análisis</h3>
+        if (P > 0.7) factores.push('alta presión estructural');
+        if (I > 0.7) factores.push('fuerte identidad');
+        if (S > 0.7) factores.push('gran significado simbólico');
+        if (BC < 0.3) factores.push('baja flexibilidad cognitiva');
+        if (BR > 0.7) factores.push('alta tolerancia al riesgo');
+        let recomendacion = '';
+        if (PNR < 0.4) recomendacion = 'Puedes avanzar con flexibilidad. Mantén opciones abiertas.';
+        else if (PNR < 0.7) recomendacion = 'Monitorea de cerca. Evita compromisos irrevocables.';
+        else recomendacion = 'Alerta de irreversibilidad. Busca alternativas.';
+        document.getElementById('resultado').classList.remove('hidden');
+        document.getElementById('resultado').innerHTML = `
+            <h3 class="text-2xl font-bold">📋 Resultado</h3>
             <div class="grid grid-cols-2 gap-4">
-                <div class="bg-gray-900 p-3 rounded">
-                    <span class="text-gray-400">PNR (probabilidad)</span>
-                    <div class="text-3xl font-bold">${PNR.toFixed(3)}</div>
-                </div>
-                <div class="bg-gray-900 p-3 rounded">
-                    <span class="text-gray-400">Riesgo</span>
-                    <div class="text-3xl font-bold ${riesgo === 'Alto' ? 'text-red-400' : riesgo === 'Moderado' ? 'text-yellow-400' : 'text-green-400'}">${riesgo}</div>
-                </div>
+                <div class="bg-gray-900 p-3 rounded"><span class="text-gray-400">PNR</span><div class="text-3xl font-bold">${PNR.toFixed(3)}</div></div>
+                <div class="bg-gray-900 p-3 rounded"><span class="text-gray-400">Riesgo</span><div class="text-3xl font-bold ${riesgo === 'Alto' ? 'text-red-400' : riesgo === 'Moderado' ? 'text-yellow-400' : 'text-green-400'}">${riesgo}</div></div>
             </div>
-            <div class="bg-gray-900 p-3 rounded">
-                <span class="text-gray-400">Factores clave</span>
-                <p>${factores.length ? factores.join(', ') : 'Ninguno especialmente dominante'}</p>
-            </div>
-            <div class="bg-gray-900 p-3 rounded">
-                <span class="text-gray-400">Recomendación</span>
-                <p>${recomendacion}</p>
-            </div>
+            <div class="bg-gray-900 p-3 rounded"><span class="text-gray-400">Factores clave</span><p>${factores.length ? factores.join(', ') : 'Ninguno especialmente dominante'}</p></div>
+            <div class="bg-gray-900 p-3 rounded"><span class="text-gray-400">Recomendación</span><p>${recomendacion}</p></div>
         `;
     }
-
-    // Detección de pago por session_id (simulado)
     (function() {
         const params = new URLSearchParams(window.location.search);
-        const sessionId = params.get('session_id');
-        if (sessionId && sessionId.length > 10) {
-            document.getElementById('btnPDF').classList.remove('hidden');
-        }
+        if (params.get('session_id')) document.getElementById('btnPDF').classList.remove('hidden');
     })();
-
-    // Generar PDF
     function generarPDF() {
         const { jsPDF } = window.jspdf;
         const doc = new jsPDF();
         const nombre = document.getElementById('nombre').value || 'Cliente';
-
-        // Recalcular para tener valores actualizados
         let pe = document.getElementById('pe').value;
         let pr = document.getElementById('pr').value;
         let pl = document.getElementById('pl').value;
@@ -254,7 +125,6 @@
         let br = document.getElementById('br').value;
         let be = document.getElementById('be').value;
         let bc = document.getElementById('bc').value;
-
         let P = (parseFloat(pe)+parseFloat(pr)+parseFloat(pl)+parseFloat(ps)+parseFloat(pm))/5;
         let A = P;
         let C = parseFloat(c)/5;
@@ -264,42 +134,28 @@
         let BE = parseFloat(be);
         let BC = parseFloat(bc);
         let B_agg = (BR+BE+BC)/3;
-
         const B0 = -2.5, B_P = 2.14, B_A = 0.83, B_C = 1.67, B_I = 1.92, B_S = 1.81,
               B_BR = 0.83, B_BE = 1.03, B_BC = -1.11, B_PxA = 0.74, B_AxB = 0.53;
-
         let logit = B0 + B_P*P + B_A*A + B_C*C + B_I*I + B_S*S + B_BR*BR + B_BE*BE + B_BC*BC + B_PxA*P*A + B_AxB*A*B_agg;
-        let PNR = 1 / (1 + Math.exp(-logit));
+        let PNR = 1/(1+Math.exp(-logit));
         let riesgo = PNR < 0.4 ? 'Bajo' : (PNR < 0.7 ? 'Moderado' : 'Alto');
-
-        doc.setFontSize(18);
-        doc.text('Informe SMA-03', 10, 15);
-        doc.setFontSize(12);
-        doc.text(`Cliente: ${nombre}`, 10, 25);
+        doc.setFontSize(18); doc.text('Informe SMA-03', 10, 15);
+        doc.setFontSize(12); doc.text(`Cliente: ${nombre}`, 10, 25);
         doc.text(`Fecha: ${new Date().toLocaleDateString()}`, 10, 32);
         doc.text('----------------------------------------', 10, 40);
-
-        let y = 50;
-        doc.setFontSize(10);
+        let y = 50; doc.setFontSize(10);
         doc.text('Parámetros ingresados:', 10, y); y+=7;
         doc.text(`P_E: ${pe} | P_R: ${pr} | P_L: ${pl} | P_S: ${ps} | P_M: ${pm}`, 10, y); y+=6;
-        doc.text(`C: ${c} | I: ${i} | S: ${s} (escala 1-5)`, 10, y); y+=6;
+        doc.text(`C: ${c} | I: ${i} | S: ${s} (1-5)`, 10, y); y+=6;
         doc.text(`B_R: ${br} | B_E: ${be} | B_C: ${bc} (0-1)`, 10, y); y+=10;
-
-        doc.text('Resultado del modelo:', 10, y); y+=7;
+        doc.text('Resultado:', 10, y); y+=7;
         doc.text(`PNR = ${PNR.toFixed(4)}`, 10, y); y+=6;
         doc.text(`Riesgo: ${riesgo}`, 10, y); y+=10;
-
-        let recomendacion = '';
-        if (PNR < 0.4) recomendacion = 'Puedes avanzar con flexibilidad. Mantén opciones abiertas.';
-        else if (PNR < 0.7) recomendacion = 'Monitorea de cerca. Evita compromisos irrevocables.';
-        else recomendacion = 'Alerta de irreversibilidad. Busca alternativas para mantener capacidad de reversión.';
+        let recomendacion = PNR < 0.4 ? 'Puedes avanzar con flexibilidad.' : (PNR < 0.7 ? 'Monitorea de cerca.' : 'Alerta de irreversibilidad.');
         doc.text('Recomendación:', 10, y); y+=6;
         doc.text(recomendacion, 10, y, { maxWidth: 180 }); y+=15;
-
         doc.text('Basado en el modelo SMA-03 validado con 113 casos (80% accuracy).', 10, y);
-        doc.text('https://github.com/uberlandsifoldreyes74/SMA-03-Irreversibility-Model', 10, y+5);
-
+        doc.text('https://github.com/uberlandisfolreyes74-spec/SMA-03-Irreversibility-Model', 10, y+5);
         doc.save(`SMA03_${nombre.replace(/\s+/g,'_')}.pdf`);
     }
 </script>
