@@ -8,7 +8,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <style>
         .slider-label { display: flex; justify-content: space-between; }
-        .value-badge { background: #2d3748; padding: 0.2rem 0.8rem; border-radius: 9999px; font-size: 0.9rem; }
+        .value-badge { background: #2d3748; padding: 0.2rem 0.8rem; border-radius: 9999px; font-size: 0.9rem; color: white; }
     </style>
 </head>
 <body class="bg-black text-white">
@@ -24,7 +24,7 @@
     <!-- FORMULARIO PRINCIPAL -->
     <div class="bg-gray-900 p-6 rounded-2xl space-y-6">
         
-        <!-- NOMBRE (opcional) -->
+        <!-- NOMBRE -->
         <div>
             <label class="block mb-1">Tu nombre (para el informe)</label>
             <input type="text" id="nombre" placeholder="Ej. Proyecto Alpha" 
@@ -55,7 +55,7 @@
             </div>
         </div>
 
-        <!-- CREENCIAS (1-5) – se dividirán entre 5 internamente -->
+        <!-- CREENCIAS (1-5) -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
             <div>
                 <div class="slider-label"><span>🔍 Causal (C)</span> <span id="c_val" class="value-badge">3</span></div>
@@ -96,7 +96,7 @@
     <!-- RESULTADO (oculto hasta calcular) -->
     <div id="resultado" class="hidden bg-gray-800 p-6 rounded-2xl space-y-3"></div>
 
-    <!-- BOTÓN DE PAGO (siempre visible) -->
+    <!-- BOTÓN DE PAGO -->
     <a id="stripeLink" href="https://buy.stripe.com/TU_LINK" target="_blank"
        class="block text-center bg-yellow-600 hover:bg-yellow-700 py-4 rounded-xl font-bold text-lg transition">
         💳 Desbloquear informe completo ($10)
@@ -110,7 +110,7 @@
 </div>
 
 <script>
-    // ----- ACTUALIZACIÓN EN TIEMPO REAL DE LOS VALORES MOSTRADOS -----
+    // Mostrar valores actualizados de los sliders
     function actualizarEtiquetas() {
         document.getElementById('pe_val').innerText = document.getElementById('pe').value;
         document.getElementById('pr_val').innerText = document.getElementById('pr').value;
@@ -125,27 +125,25 @@
         document.getElementById('bc_val').innerText = document.getElementById('bc').value;
     }
 
-    // Asignar eventos a todos los sliders
     document.querySelectorAll('input[type=range]').forEach(slider => {
         slider.addEventListener('input', actualizarEtiquetas);
     });
-    actualizarEtiquetas(); // valores iniciales
+    actualizarEtiquetas();
 
-    // ----- FUNCIÓN SIGMOIDE -----
+    // Función sigmoide
     function sigmoid(x) { return 1 / (1 + Math.exp(-x)); }
 
-    // ----- CÁLCULO PRINCIPAL (COEFICIENTES REALES DEL MODELO) -----
+    // Cálculo principal
     function calcular() {
-        // Leer valores y normalizar (C,I,S dividir entre 5)
-        let P_E = parseFloat(document.getElementById('pe').value);
-        let P_R = parseFloat(document.getElementById('pr').value);
-        let P_L = parseFloat(document.getElementById('pl').value);
-        let P_S = parseFloat(document.getElementById('ps').value);
-        let P_M = parseFloat(document.getElementById('pm').value);
-        // Agregamos las cinco presiones en una sola (promedio) – o podrías usar cada una por separado si tienes coeficientes individuales
-        let P = (P_E + P_R + P_L + P_S + P_M) / 5;
+        // Leer valores
+        let pe = parseFloat(document.getElementById('pe').value);
+        let pr = parseFloat(document.getElementById('pr').value);
+        let pl = parseFloat(document.getElementById('pl').value);
+        let ps = parseFloat(document.getElementById('ps').value);
+        let pm = parseFloat(document.getElementById('pm').value);
+        let P = (pe + pr + pl + ps + pm) / 5;
 
-        let A = P; // Usamos la misma presión como proxy de "compromiso/acción" (en el modelo original A podría ser independiente)
+        let A = P; // proxy de compromiso/acción
 
         let C = parseFloat(document.getElementById('c').value) / 5;
         let I = parseFloat(document.getElementById('i').value) / 5;
@@ -154,24 +152,21 @@
         let BR = parseFloat(document.getElementById('br').value);
         let BE = parseFloat(document.getElementById('be').value);
         let BC = parseFloat(document.getElementById('bc').value);
-
-        // Coeficientes (β) obtenidos de los odds ratios (Tabla 3)
-        const B0 = -2.5;         // constante (ajustada empíricamente)
-        const B_P = 2.14;        // presión estructural (OR 8.5)
-        const B_A = 0.83;        // acción/compromiso (OR 2.3) – tomamos de BR como proxy
-        const B_C = 1.67;        // causal (OR 5.3)
-        const B_I = 1.92;        // identidad (OR 6.8)
-        const B_S = 1.81;        // significado (OR 6.1)
-        const B_BR = 0.83;       // riesgo (OR 2.3)
-        const B_BE = 1.03;       // emoción (OR 2.8)
-        const B_BC = -1.11;      // flexibilidad (OR 0.33)
-        const B_PxA = 0.74;      // interacción P × A (OR 2.1)
-        const B_AxB = 0.53;      // interacción A × B (OR 1.7)
-
-        // Agregado biológico (promedio simple)
         let B_agg = (BR + BE + BC) / 3;
 
-        // Cálculo del logit
+        // Coeficientes del modelo (basados en odds ratios)
+        const B0 = -2.5;
+        const B_P = 2.14;
+        const B_A = 0.83;
+        const B_C = 1.67;
+        const B_I = 1.92;
+        const B_S = 1.81;
+        const B_BR = 0.83;
+        const B_BE = 1.03;
+        const B_BC = -1.11;
+        const B_PxA = 0.74;
+        const B_AxB = 0.53;
+
         let logit = B0
                   + B_P * P
                   + B_A * A
@@ -186,7 +181,7 @@
 
         let PNR = sigmoid(logit);
 
-        // Clasificación de riesgo
+        // Clasificación
         let riesgo, recomendacion;
         if (PNR < 0.4) {
             riesgo = "Bajo";
@@ -199,7 +194,7 @@
             recomendacion = "Alerta de irreversibilidad. Busca alternativas para mantener capacidad de reversión.";
         }
 
-        // Factores dominantes (para explicación)
+        // Factores dominantes
         let factores = [];
         if (P > 0.7) factores.push("alta presión estructural");
         if (I > 0.7) factores.push("fuerte identidad");
@@ -232,61 +227,51 @@
         `;
     }
 
-    // ----- DETECCIÓN DE PAGO (vía session_id de Stripe) -----
+    // Detección de pago por session_id (simulado)
     (function() {
         const params = new URLSearchParams(window.location.search);
         const sessionId = params.get('session_id');
-        // Stripe genera session_ids que empiezan por "cs_" y tienen longitud ~30
         if (sessionId && sessionId.length > 10) {
             document.getElementById('btnPDF').classList.remove('hidden');
-            // Opcional: mostrar mensaje
-            const resultado = document.getElementById('resultado');
-            if (resultado) {
-                resultado.innerHTML += '<p class="text-green-400 mt-2">✅ Pago confirmado. Ya puedes descargar el informe.</p>';
-            }
         }
     })();
 
-    // ----- GENERAR PDF MEJORADO -----
+    // Generar PDF
     function generarPDF() {
         const { jsPDF } = window.jspdf;
         const doc = new jsPDF();
-
         const nombre = document.getElementById('nombre').value || 'Cliente';
 
-        // Recoger valores actuales
-        const pe = document.getElementById('pe').value;
-        const pr = document.getElementById('pr').value;
-        const pl = document.getElementById('pl').value;
-        const ps = document.getElementById('ps').value;
-        const pm = document.getElementById('pm').value;
-        const c = document.getElementById('c').value;
-        const i = document.getElementById('i').value;
-        const s = document.getElementById('s').value;
-        const br = document.getElementById('br').value;
-        const be = document.getElementById('be').value;
-        const bc = document.getElementById('bc').value;
+        // Recalcular para tener valores actualizados
+        let pe = document.getElementById('pe').value;
+        let pr = document.getElementById('pr').value;
+        let pl = document.getElementById('pl').value;
+        let ps = document.getElementById('ps').value;
+        let pm = document.getElementById('pm').value;
+        let c = document.getElementById('c').value;
+        let i = document.getElementById('i').value;
+        let s = document.getElementById('s').value;
+        let br = document.getElementById('br').value;
+        let be = document.getElementById('be').value;
+        let bc = document.getElementById('bc').value;
 
-        // Recalcular el resultado (mismo cálculo que antes)
-        let P = (parseFloat(pe) + parseFloat(pr) + parseFloat(pl) + parseFloat(ps) + parseFloat(pm)) / 5;
+        let P = (parseFloat(pe)+parseFloat(pr)+parseFloat(pl)+parseFloat(ps)+parseFloat(pm))/5;
         let A = P;
-        let C = parseFloat(c) / 5;
-        let I = parseFloat(i) / 5;
-        let S = parseFloat(s) / 5;
+        let C = parseFloat(c)/5;
+        let I = parseFloat(i)/5;
+        let S = parseFloat(s)/5;
         let BR = parseFloat(br);
         let BE = parseFloat(be);
         let BC = parseFloat(bc);
-        let B_agg = (BR + BE + BC) / 3;
+        let B_agg = (BR+BE+BC)/3;
 
         const B0 = -2.5, B_P = 2.14, B_A = 0.83, B_C = 1.67, B_I = 1.92, B_S = 1.81,
               B_BR = 0.83, B_BE = 1.03, B_BC = -1.11, B_PxA = 0.74, B_AxB = 0.53;
 
         let logit = B0 + B_P*P + B_A*A + B_C*C + B_I*I + B_S*S + B_BR*BR + B_BE*BE + B_BC*BC + B_PxA*P*A + B_AxB*A*B_agg;
         let PNR = 1 / (1 + Math.exp(-logit));
-
         let riesgo = PNR < 0.4 ? 'Bajo' : (PNR < 0.7 ? 'Moderado' : 'Alto');
 
-        // Construir contenido del PDF
         doc.setFontSize(18);
         doc.text('Informe SMA-03', 10, 15);
         doc.setFontSize(12);
@@ -294,7 +279,6 @@
         doc.text(`Fecha: ${new Date().toLocaleDateString()}`, 10, 32);
         doc.text('----------------------------------------', 10, 40);
 
-        // Tabla de valores
         let y = 50;
         doc.setFontSize(10);
         doc.text('Parámetros ingresados:', 10, y); y+=7;
@@ -306,7 +290,6 @@
         doc.text(`PNR = ${PNR.toFixed(4)}`, 10, y); y+=6;
         doc.text(`Riesgo: ${riesgo}`, 10, y); y+=10;
 
-        // Recomendación (según el cálculo)
         let recomendacion = '';
         if (PNR < 0.4) recomendacion = 'Puedes avanzar con flexibilidad. Mantén opciones abiertas.';
         else if (PNR < 0.7) recomendacion = 'Monitorea de cerca. Evita compromisos irrevocables.';
@@ -315,23 +298,10 @@
         doc.text(recomendacion, 10, y, { maxWidth: 180 }); y+=15;
 
         doc.text('Basado en el modelo SMA-03 validado con 113 casos (80% accuracy).', 10, y);
-        doc.text('Para más información: https://github.com/uberlandsifoldreyes74/SMA-03-Irreversibility-Model', 10, y+5);
+        doc.text('https://github.com/uberlandsifoldreyes74/SMA-03-Irreversibility-Model', 10, y+5);
 
         doc.save(`SMA03_${nombre.replace(/\s+/g,'_')}.pdf`);
     }
 </script>
-
-<!-- Modificar el enlace de Stripe para que incluya session_id al volver -->
-<script>
-    (function() {
-        // Personaliza el enlace de Stripe para que redirija a esta misma página con session_id
-        // Debes reemplazar TU_LINK con tu enlace real de Stripe, y añadir ?session_id={CHECKOUT_SESSION_ID}
-        const stripeLink = document.getElementById('stripeLink');
-        const baseUrl = window.location.href.split('?')[0]; // sin parámetros
-        stripeLink.href = 'https://buy.stripe.com/TU_LINK?session_id={CHECKOUT_SESSION_ID}?redirect=' + encodeURIComponent(baseUrl + '?session_id={CHECKOUT_SESSION_ID}');
-        // Nota: La sintaxis exacta depende de cómo configures Stripe. Consulta su documentación.
-    })();
-</script>
-
 </body>
 </html>
