@@ -1,44 +1,31 @@
-# Modelo de Irreversibilidad SMA-03
+# 🛠️ SMA-03: Manual de Implementación y Diagnóstico
 
-**SMA-03: A Multilevel Socio-Cognitive Model for Analyzing Irreversibility**  
-Uberlandis Fiol Reyes  
-Independent Researcher, Havana, Cuba  
-18 de marzo de 2026 (actualizado 19 de marzo 2026)
+Este repositorio contiene la caja de herramientas completa para aplicar el **Modelo Socio-Cognitivo SMA-03** a decisiones organizacionales críticas. Siga estas instrucciones para transformar datos cualitativos en una métrica cuantitativa de irreversibilidad.
 
-## 📄 Archivos del repositorio
-- `SMA-03_FINAL_PAPER_COMPLETO_INTEGRADO-2.pdf` → Paper completo (10 páginas)
-- `SMA-03_DATASET_EXTENDED.json` → 13 casos históricos reales
-- `SMA-03_DATASET_100_CASES.json` → 100 casos de validación
-- `SMA-03_full_model.py` → Script Python con todas las ecuaciones
-
-## 🚀 Calculadora Interactiva SMA-03 Lite (¡Pruébala ahora!)
-
-Pon a prueba el modelo con tus propios valores y obtén una predicción instantánea del **Point of No Return (PNR)**.
-
-**Accede a la calculadora:**
-- Si tienes el repositorio clonado: abre `calculator/index.html`
-- **Versión online (GitHub Pages):**  
-  https://uberlandisfiolreyes74.github.io/SMA-03-Irreversibility-Model/calculator  
-  *(Si aún no funciona, activa GitHub Pages en Settings → Pages → Source: Deploy from a branch → main → / (root) y espera 1 minuto)*
-
-**Características:**
-- Interfaz intuitiva con deslizadores para todas las variables (P, C, I, S, BR, BE, BC)
-- Cálculo en tiempo real del PNR y nivel de riesgo
-- Informe PDF personalizado (demo)
-- Código 100 % abierto y modificable
-
-## ✨ Características principales del modelo
-- Precisión del modelo completo: **80 %** (AUC **0.8976**)
-- Inter-rater reliability: Cohen’s **κ = 0.75**
-- Modelos anidados comparados (Tabla 2 del paper)
-- 100 % reproducible
-
-## 📚 Cómo citar
-Fiol Reyes, U. (2026). SMA-03: A Multilevel Socio-Cognitive Model for Analyzing Irreversibility. GitHub repository. https://github.com/uberlandisfiolreyes74-spec/Modelo-de-irreversibilidad-SMA-03
-
-**Licencia**: CC-BY 4.0
+## 📦 Contenido del Toolkit
+1. **Paper Científico (`/docs`):** Fundamentación matemática y validación de casos (NVIDIA, Boeing, etc.).
+2. **Motor de Cálculo (`/src`):** Script de Python (`sma03_engine.py`) para procesamiento avanzado.
+3. **Cuestionario Interactivo (`/tools`):** Archivo Excel/CSV para recolección de datos en campo.
 
 ---
 
-Hecho con ❤️ por un investigador independiente en Cuba.  
-Contacto: uberlandisfolreyes74@gmail.com
+## 🚦 Guía de Inicio Rápido
+
+### Paso 1: Recolección de Datos
+Utilice el archivo `SMA-03_CUESTIONARIO_INTERACTIVO.csv`. Responda a las 25 preguntas utilizando la escala de Likert (1-5):
+* **Sección 1 (P):** Presiones Estructurales.
+* **Sección 2 (A):** Sistemas de Creencias.
+* **Sección 3 (B):** Predisposiciones Biológicas (Flexibilidad Cognitiva).
+* **Sección 4 (N):** Dinámica de Adopción Colectiva.
+
+### Paso 2: Cálculo del Índice de Irreversibilidad (II)
+Si usa la hoja de cálculo, el resultado se generará automáticamente. Si desea mayor precisión, ejecute el motor en Python:
+
+```python
+# Ejemplo rápido de uso
+from src.sma03_engine import SMA03Model
+
+model = SMA03Model()
+# Introduzca sus promedios obtenidos del cuestionario
+score = model.calculate_ii(P=[4, 5, 3, 5], A=4.5, B=0.8, D_t=1.2)
+print(f"Índice de Irreversibilidad: {score}")
