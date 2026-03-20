@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calculadora SMA-03 Lite</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <style>
+    input[type="range"] { accent-color: #3b82f6; }
+  </style>
+</head>
+<body class="bg-gray-900 text-white min-h-screen">
+  <div class="max-w-2xl mx-auto p-8">
+    <h1 class="text-4xl font-bold text-center mb-2">📊 Calculadora SMA-03 Lite</h1>
+    <p class="text-center text-gray-400 mb-8">Predice el Point of No Return (PNR) en tiempo real</p>
+
+    <div class="bg-gray-800 rounded-2xl p-8 space-y-8">
+      <!-- Sliders -->
+      <div>
+        <label class="block text-sm font-medium mb-1">Presión Estructural Promedio (P) <span id="valP" class="float-right">0.80</span></label>
+        <input type="range" id="P" min="0" max="1" step="0.01" value="0.80" class="w-full">
+      </div>
+      <div class="grid grid-cols-3 gap-6">
+        <div>
+          <label>Causal (C) <span id="valC" class="float-right">0.40</span></label>
+          <input type="range" id="C" min="0" max="1" step="0.01" value="0.40">
+        </div>
+        <div>
+          <label>Identidad (I) <span id="valI" class="float-right">0.75</span></label>
+          <input type="range" id="I" min="0" max="1" step="0.01" value="0.75">
+        </div>
+        <div>
+          <label>Significado (S) <span id="valS" class="float-right">0.70</span></label>
+          <input type="range" id="S" min="0" max="1" step="0.01" value="0.70">
+        </div>
+      </div>
+      <div class="grid grid-cols-3 gap-6">
+        <div>
+          <label>Riesgo (BR) <span id="valBR" class="float-right">0.90</span></label>
+          <input type="range" id="BR" min="0" max="2" step="0.01" value="0.90">
+        </div>
+        <div>
+          <label>Emocional (BE) <span id="valBE" class="float-right">0.85</span></label>
+          <input type="range" id="BE" min="0" max="2" step="0.01" value="0.85">
+        </div>
+        <div>
+          <label>Flexibilidad (BC) <span id="valBC" class="float-right">0.60</span></label>
+          <input type="range" id="BC" min="0" max="2" step="0.01" value="0.60">
+        </div>
+      </div>
+
+      <button onclick="calcular()" class="w-full bg-blue-600 hover:bg-blue-700 py-4 rounded-xl font-bold text-lg">
+        CALCULAR PNR
+      </button>
+
+      <!-- Resultados -->
+      <div id="resultados" class="hidden bg-gray-900 rounded-xl p-6 text-center">
+        <div id="II" class="text-6xl font-bold mb-2"></div>
+        <div id="estatus" class="text-2xl font-semibold mb-4"></div>
+        <div id="explicacion" class="text-sm text-gray-400"></div>
+      </div>
+    </div>
+
+    <button onclick="generarPDF()" class="mt-6 w-full bg-green-600 hover:bg-green-700 py-3 rounded-xl font-medium">
+      📄 Generar Informe PDF (Demo)
+    </button>
+
+    <p class="text-xs text-center text-gray-500 mt-8">
+      Basado en SMA-03 (Uberlandis Fiol Reyes, 2026) • 80% precisión validada
+    </p>
+  </div>
+
+  <script>
+    // Actualizar valores en tiempo real
+    const sliders = ['P','C','I','S','BR','BE','BC'];
+    sliders.forEach(id => {
+      const slider = document.getElementById(id);
+      const val = document.getElementById('val' + id);
+      slider.addEventListener('input', () => val.textContent = parseFloat(slider.value).toFixed(2));
+    });
+
+    function calcular() {
+      const P = parseFloat(document.getElementById('P').value);
+      const C = parseFloat(document.getElementById('C').value);
+      const I = parseFloat(document.getElementById('I').value);
+      const S = parseFloat(document.getElementById('S').value);
+      const BR = parseFloat(document.getElementById('BR').value);
+      const BE = parseFloat(document.getElementById('BE').value);
+      const BC = parseFloat(document.getElementById('BC').value);
+
+      const A_avg = (C + I + S) / 3;
+      const B_avg = (BR + BE + BC) / 3;
+
+      // Fórmula exacta del paper (5 presiones idénticas)
+      const prod_term = Math.pow(1 - P * A_avg * B_avg, 5);
+      const II = (1 - prod_term) * 1.0;
+
+      const pnr = II >= 0.75;
+
+      // Mostrar resultados
+      document.getElementById('resultados').classList.remove('hidden');
+      document.getElementById('II').textContent = II.toFixed(3);
+      document.getElementById('estatus').innerHTML = pnr ? 
+        `<span class="text-red-500">¡PNR ALCANZADO!</span>` : 
+        `<span class="text-green-500">Aún reversible</span>`;
+      document.getElementById('explicacion').innerHTML = `Irreversibility Index = ${II.toFixed(3)}<br>A = ${A_avg.toFixed(2)} | B = ${B_avg.toFixed(2)}`;
+    }
+
+    function generarPDF() {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+      doc.setFontSize(20);
+      doc.text("Informe SMA-03 - Point of No Return", 20, 20);
+      doc.setFontSize(12);
+      doc.text(`Fecha: ${new Date().toLocaleDateString('es-ES')}`, 20, 40);
+      doc.text(`P = ${document.getElementById('P').value}`, 20, 55);
+      doc.text(`C = ${document.getElementById('C').value} | I = ${document.getElementById('I').value} | S = ${document.getElementById('S').value}`, 20, 65);
+      doc.text(`BR = ${document.getElementById('BR').value} | BE = ${document.getElementById('BE').value} | BC = ${document.getElementById('BC').value}`, 20, 75);
+      doc.text(`Irreversibility Index = ${document.getElementById('II').textContent || '0.000'}`, 20, 90);
+      doc.text(document.getElementById('estatus').innerText || "Aún no calculado", 20, 105);
+      doc.text("Modelo validado en 113 casos • 80% precisión (AUC 0.8976)", 20, 130);
+      doc.save("SMA-03_Informe_PNR.pdf");
+      alert("✅ PDF generado y descargado (demo real)");
+    }
+  </script>
+</body>
+  </html>
