@@ -16,7 +16,7 @@ Marzo 2026
 **Enlace directo:**  
 https://uberlandisfiolreyes74-spec.github.io/SMA-03-Irreversibility-Model/calculator
 
-(Deslizadores en tiempo real + generación de PDF personalizado)
+(Deslizadores para las 5 presiones estructurales + creencias + predisposiciones biológicas + generación de PDF)
 
 ## ✨ Características del modelo
 - Precisión del modelo completo: **80%** (AUC **0.8976**)
@@ -33,4 +33,3 @@ Fiol Reyes, U. (2026). SMA-03: A Multilevel Socio-Cognitive Model for Analyzing 
 
 Hecho con ❤️ por un investigador independiente en Cuba.  
 Contacto: uberlandisfolreyes74@gmail.com
-
