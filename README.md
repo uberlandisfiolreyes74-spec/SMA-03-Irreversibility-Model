@@ -1,31 +1,35 @@
-# 🛠️ SMA-03: Manual de Implementación y Diagnóstico
+# Modelo de Irreversibilidad SMA-03
 
-Este repositorio contiene la caja de herramientas completa para aplicar el **Modelo Socio-Cognitivo SMA-03** a decisiones organizacionales críticas. Siga estas instrucciones para transformar datos cualitativos en una métrica cuantitativa de irreversibilidad.
+**SMA-03: A Multilevel Socio-Cognitive Model for Analyzing Irreversibility**  
+Uberlandis Fiol Reyes  
+Independent Researcher, Havana, Cuba  
+Marzo 2026
 
-## 📦 Contenido del Toolkit
-1. **Paper Científico (`/docs`):** Fundamentación matemática y validación de casos (NVIDIA, Boeing, etc.).
-2. **Motor de Cálculo (`/src`):** Script de Python (`sma03_engine.py`) para procesamiento avanzado.
-3. **Cuestionario Interactivo (`/tools`):** Archivo Excel/CSV para recolección de datos en campo.
+## 📄 Archivos del repositorio
+- `SMA-03_FINAL_PAPER_COMPLETO_INTEGRADO-2.pdf` → Paper científico completo
+- `SMA-03_DATASET_EXTENDED.json` → 13 casos históricos reales
+- `SMA-03_DATASET_100_CASES.json` → 100 casos de validación
+- `SMA-03_full_model.py` → Script Python con todas las ecuaciones del paper
+- `calculator/index.html` → Calculadora interactiva en vivo
+
+## 🚀 Calculadora SMA-03 Lite (¡Pruébala ahora!)
+**Enlace directo:**  
+https://uberlandisfiolreyes74.github.io/SMA-03-Irreversibility-Model/calculator
+
+(Deslizadores en tiempo real + generación de PDF personalizado)
+
+## ✨ Características del modelo
+- Precisión: **80%** (AUC **0.8976**)
+- Inter-rater reliability: **κ = 0.75**
+- Modelos anidados validados en 113 casos
+- 100% reproducible y de código abierto
+
+## 📚 Cómo citar
+Fiol Reyes, U. (2026). SMA-03: A Multilevel Socio-Cognitive Model for Analyzing Irreversibility. GitHub repository. https://github.com/uberlandisfiolreyes74-spec/Modelo-de-irreversibilidad-SMA-03
+
+**Licencia**: CC-BY 4.0
 
 ---
 
-## 🚦 Guía de Inicio Rápido
-
-### Paso 1: Recolección de Datos
-Utilice el archivo `SMA-03_CUESTIONARIO_INTERACTIVO.csv`. Responda a las 25 preguntas utilizando la escala de Likert (1-5):
-* **Sección 1 (P):** Presiones Estructurales.
-* **Sección 2 (A):** Sistemas de Creencias.
-* **Sección 3 (B):** Predisposiciones Biológicas (Flexibilidad Cognitiva).
-* **Sección 4 (N):** Dinámica de Adopción Colectiva.
-
-### Paso 2: Cálculo del Índice de Irreversibilidad (II)
-Si usa la hoja de cálculo, el resultado se generará automáticamente. Si desea mayor precisión, ejecute el motor en Python:
-
-```python
-# Ejemplo rápido de uso
-from src.sma03_engine import SMA03Model
-
-model = SMA03Model()
-# Introduzca sus promedios obtenidos del cuestionario
-score = model.calculate_ii(P=[4, 5, 3, 5], A=4.5, B=0.8, D_t=1.2)
-print(f"Índice de Irreversibilidad: {score}")
+Hecho con ❤️ por un investigador independiente en Cuba.  
+Contacto: uberlandisfolreyes74@gmail.com
